@@ -32,8 +32,6 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 gem 'nokogiri'
-gem 'chartkick'
-gem 'highcharts-rails'
 gem 'twitter-bootstrap-rails'
 
 group :development, :test do
