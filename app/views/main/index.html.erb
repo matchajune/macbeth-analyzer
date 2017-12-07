@@ -1,27 +1,32 @@
-<h3>Character Name && Their Line Count</h3>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col"># of Lines</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% sort_by_line_count(@json).each do |name, num_of_lines| %>
-      <tr>
-        <td><%= name %></td>
-        <td><%= num_of_lines%></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= form_tag("/", method: "get") do %>
+  <%= label_tag(:xml_url, "Search for:") %>
+  <%= text_field_tag(:xml_url) %>
+  <%= submit_tag("Search") %>
+<% end %>
 
 <hr>
 
-<h3>Act Breakdown</h3>
-<% aggregate_totals(@acts).each do |data| %>
-  <h4>Act<%= data[:number] %> has:</h4>
-  <p><%= data[:characters] %> Characters...in</p>
-  <p><%= data[:scenes] %> Scenes...with a total of</p>
-  <p><%= data[:lines] %> Lines Said!</p>
+<% if @play %>
+  <h2>WINNER</h2>
+  <p><%= @winner[:name] %> won with <%= @winner[:count] %> lines!</p>
+
+  <hr>
+
+  <h3>Character Name && Their Line Count</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col"># of Lines</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @play.each do |character_name, num_of_lines| %>
+        <tr>
+          <td><%= character_name %></td>
+          <td><%= num_of_lines %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>

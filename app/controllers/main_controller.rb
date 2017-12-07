@@ -1,14 +1,18 @@
 class MainController < ApplicationController
-  before_action :get_json
+  before_action :sanitize_params
+  before_action :setup_play_and_winner, if: :sanitize_params
 
   def index
-    @acts = Act.all
+
   end
 
-  private def get_json
-    @json = {}
-    Character.all.each do |char|
-      @json[char.name] = char.lines.length
-    end
+  private def sanitize_params
+    @path = params[:xml_url]
+  end
+
+  private def setup_play_and_winner
+    parse   = Play.new(@path)
+    @play   = parse.play
+    @winner = parse.winner
   end
 end
