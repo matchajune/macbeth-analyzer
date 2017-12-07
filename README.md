@@ -2,7 +2,7 @@
 
 See this site running [here](https://macbeth-analyzor.herokuapp.com/)!
 
-Local installation:
+## Local installation:
 
   * `git clone https://github.com/matchajune/macbeth-analyzer.git`
   * `cd macbeth-analyzer`
@@ -10,7 +10,7 @@ Local installation:
   * `rake db:create; rake db:migrate; rake db:seed`
   * `puma`
 
-Tests
+## Tests
 
 The test is testing the MacBeth class that is used to import the book into the app. I took the first scene from the first act as a smaller sample size.
 
