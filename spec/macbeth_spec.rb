@@ -95,4 +95,32 @@ describe MacBeth do
     end
   end
 
+  context "Lines" do
+    before(:all) do
+      @lines = Line.all
+    end
+
+    it "length is 11" do
+      expect(@lines.length).to eq(11)
+    end
+
+    it "each has 1 character" do
+      @lines.each do |line|
+        expect(line.character).to be_truthy
+      end
+    end
+
+    it "each has 1 scene" do
+      @lines.each do |line|
+        expect(line.scene).to be_truthy
+      end
+    end
+
+    it "each has 1 act" do
+      @lines.each do |line|
+        expect(line.act).to be_truthy
+      end
+    end
+  end
+
 end
