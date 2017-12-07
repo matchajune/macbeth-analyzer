@@ -42,14 +42,16 @@ class MacBeth
   end
 
   private def sanitize_characters(speech)
-    characters = speech.css("SPEAKER").map {|char| char.text.downcase}
-    if characters.include?("all")
-      []
-    elsif characters.include?("both murderers")
-      Character.where(name: ["first murderer", "second murderer"])
-    else
-      characters.map {|char_name| Character.find_or_create_by(name: char_name)}
-    end
+    speech.css("SPEAKER").map do |character|
+      char_name = character.text.downcase
+      if char_name == "all"
+        next
+      elsif char_name == "both murderers"
+        Character.where(name: ["first murderer", "second murderer"])
+      else
+        Character.find_or_create_by(name: char_name)
+      end
+    end.flatten.compact
   end
 
   private def save_each_line(lines, character_id, scene_id)
