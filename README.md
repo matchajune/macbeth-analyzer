@@ -1,24 +1,22 @@
-# README
+# MACBETH ANALYZER
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+See this site running [here](https://macbeth-analyzor.herokuapp.com/)!
 
-Things you may want to cover:
+Local installation:
 
-* Ruby version
+  * `git clone https://github.com/matchajune/macbeth-analyzer.git`
+  * `cd macbeth-analyzer`
+  * `bundle install`
+  * `rake db:create; rake db:migrate; rake db:seed`
+  * `puma`
 
-* System dependencies
+Tests
 
-* Configuration
+The test is testing the MacBeth class that is used to import the book into the app. I took the first scene from the first act as a smaller sample size.
 
-* Database creation
+The tests cover:
 
-* Database initialization
+  1. The correct numbers for the Models are created.
+  2. The relationships are built correctly.
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+You can `rspec` to run the tests locally.
