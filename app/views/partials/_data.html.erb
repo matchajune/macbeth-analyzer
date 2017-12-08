@@ -1,0 +1,17 @@
+<h3>Character Name && Their Line Count</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col"># of Lines</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% play.each do |character_name, num_of_lines| %>
+      <tr>
+        <td><%= character_name %></td>
+        <td><%= num_of_lines %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,24 +1,31 @@
 class Play
   require 'open-uri'
-  attr_reader :play, :winner
+  attr_reader :play, :winner, :error
 
   def initialize(path)
-    file          = open(path)
-    xml_doc       = Nokogiri::HTML(file)
-    @play         = {}
-    @winner       = ""
-    @count        = 0
-    parse(xml_doc)
+    @play   = {}
+    @winner = ""
+    @count  = 0
+    @error  = false
+
+    begin
+      file    = open(path)
+      xml_doc = Nokogiri::HTML(file)
+      parse(xml_doc)
+    rescue
+      @error  = true
+      puts "Couldn't parse...returning defaults."
+    end
   end
 
   private def parse(xml_doc)
     speeches = xml_doc.css("speech")
     speeches.each do |speech|
-      increment_lines_for_characters(speech)
+      parse_all_characters(speech)
     end
   end
 
-  private def increment_lines_for_characters(speech)
+  private def parse_all_characters(speech)
     characters      = speech.css("speaker")
     number_of_lines = speech.css("line").length
     characters.map do |character|
@@ -30,7 +37,7 @@ class Play
   end
 
   private def find_or_create_character(name, number_of_lines)
-    if name != "all"
+    unless ["", "all"].include?(name)
       @play[name] ||= 0
       @play[name] += number_of_lines
     end
@@ -43,7 +50,7 @@ class Play
         name: name,
         count: total
       }
-      @count  = total
+      @count = total
     end
   end
 

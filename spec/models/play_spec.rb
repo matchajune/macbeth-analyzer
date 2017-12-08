@@ -1,26 +1,56 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Play, type: :model do
-  before(:all) do
-    path_to_test_xml = "#{Dir.pwd}/spec/macbeth-test.xml"
-    parse            = Play.new({file_path: path_to_test_xml})
-    @play            = parse.play
-    @winner          = parse.winner
+  context "successfully parsed" do
+    before(:all) do
+      path_to_xml = [
+        "http://www.ibiblio.org/xml/examples/shakespeare/com_err.xml",
+        "http://www.ibiblio.org/xml/examples/shakespeare/troilus.xml",
+        "http://www.ibiblio.org/xml/examples/shakespeare/macbeth.xml"
+      ]
+      parse       = Play.new(path_to_xml.sample)
+      @error      = parse.error
+      @play       = parse.play
+      @winner     = parse.winner
+    end
+
+    it "should not have an error state" do
+      expect(@error).to be false
+    end
+
+    it "should have characters in the play" do
+      expect(@play.length).to be > 0
+    end
+
+    it "verify the winner is valid with correct lines" do
+      expect(@play.key(@play.values.max)).to eq(@winner[:name])
+      expect(@play.values.max).to eq(@winner[:count])
+    end
   end
 
-  context "Play" do
-    it "has first witch say 4 lines" do
-      expect(@play["first witch"]).to eq(4)
+  context "fail to parse" do
+    before(:all) do
+      path_to_xml = "bad_path"
+      parse       = Play.new(path_to_xml)
+      @error      = parse.error
+      @play       = parse.play
+      @winner     = parse.winner
     end
 
-    it "has second witch say 3 lines" do
-      expect(@play["second witch"]).to eq(4)
+    it "should have an error state" do
+      expect(@error).to be true
     end
 
-    it "has third witch say 3 lines" do
-      expect(@play["third witch"]).to eq(4)
+    it "should have no characters in the play" do
+      expect(@play.length).to eq(0)
     end
 
+    it "there is no winner" do
+      expect(@play.key(@play.values.max)).to be_nil
+      expect(@play.values.max).to be_nil
+
+      expect(@winner).to be_empty
+    end
   end
 
 end
